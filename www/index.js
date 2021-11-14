@@ -91,7 +91,7 @@ const renderLoop = () => {
         drawCells();
 
         requestAnimationFrame(renderLoop);
-    }, 500)
+    }, 100)
 }
 
 drawGrid();
