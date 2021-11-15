@@ -67,3 +67,56 @@ wasm-pack publish
   for logging panic messages to the developer console.
 * [`wee_alloc`](https://github.com/rustwasm/wee_alloc), an allocator optimized
   for small code size.
+
+## Optimized build configuration
+
+check size of wasm
+```bash
+$ wc -c pkg/wasm_game_of_life_bg.wasm
+```
+
+add to cargo.toml for compress build
+```toml
+[profile.release]
+lto = true
+opt-level = "z"
+```
+
+build with release
+```bash
+$ wasm-pack build --release
+```
+
+
+install binaryen run wasm optimization
+```bash
+$ sudo apt install binaryen
+$ wasm-opt -Oz -o output.wasm input.wasm
+```
+
+compress to gzip
+```bash
+$ gzip -9 < pkg/wasm_game_of_life_bg.wasm | wc -c
+```
+
+after all shrink size, wasm is ready for deploy
+
+### for more size profiling
+
+[shrinking .wasm code size](https://rustwasm.github.io/docs/book/reference/code-size.html#shrinking-wasm-code-size)
+
+[shrinking .wasm size](https://rustwasm.github.io/docs/book/game-of-life/code-size.html#how-small-can-we-get-our-game-of-life-wasm-binary-via-build-configuration)
+
+## publish to npm
+
+must set valid name in cargo.toml
+```toml
+[package]
+name = "wasm-game-of-life-my-username"
+```
+
+```bash
+$ wasm-pack loign
+$ wasm-pack build --release
+$ wasm-pack publish
+```
